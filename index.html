@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./main.css">
+    <!-- Javascript -->
+    <script src="./app.js" defer></script>
+    <title>Image Uploader</title>
+</head>
+
+<body>
+    <div class="container">
+        <main>
+            <h1>Image Uploader</h1>
+            <span class="message"></span>
+            <form id="formUploadFile" method="POST">
+                <div class="file-upload flex ai-c w-full" title="No file choosen">
+                    <input type="file" name="inputFile" id="inputFile" style="display: none;">
+                    <div class="file-upload-name" id="fileUploadName"></div>
+                    <label class="btn btn-outline-green" for="inputFile">Choose file</label>
+                </div>
+                <button type="submit" class="btn btn-green w-full">Upload</button>
+            </form>
+        </main>
+    </div>
+</body>
+
+</html>
