@@ -1,6 +1,7 @@
 const inputFile = document.getElementById('inputFile');
 const formUploadFile = document.getElementById('formUploadFile');
 const fileUploadName = document.getElementById('fileUploadName');
+const imageGridContainer = document.querySelector('.image-grid');
 const message = document.querySelector('.message');
 const successStatusCode = [200, 201];
 const errorStatusCode = [400, 500];
@@ -49,4 +50,35 @@ function uploadFile(e) {
     });
 }
 
+function generateImage({ url, downloadUrl }) {
+    return `
+        <div class="image">
+            <img src="${url}" alt="">
+        </div>
+    `
+}
+
+function showImages() {
+    request('GET', 'http://localhost:5000/api/images', (xhr, err) => {
+        if (err) {
+            return console.log(err);
+        }
+        xhr.onreadystatechange = function (e) {
+            if (e.target.readyState === 4) {
+                // if success
+                if (successStatusCode.indexOf(e.target.status) != -1) {
+                    const { images } = JSON.parse(e.target.response);
+                    let generatedImages = '';
+                    images.map(image => {
+                        generatedImages += generateImage(image);
+                    });
+                    imageGridContainer.innerHTML = generatedImages;
+                }
+            }
+        }
+        xhr.send();
+    });
+}
+
+showImages();
 updateInputFile();
