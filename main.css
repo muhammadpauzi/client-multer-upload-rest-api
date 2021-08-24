@@ -107,13 +107,13 @@ main h1{
 }
 
 .message-green{
-    display: block;
+    display: block !important;
     color: var(--green-color);
     background-color: var(--green-color-3);
 }
 
 .message-red{
-    display: block;
+    display: block !important;
     color: var(--red-color);
     background-color: var(--red-color-3);
 }
