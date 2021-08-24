@@ -107,17 +107,19 @@ main h1{
 }
 
 .message-green{
+    display: block;
     color: var(--green-color);
     background-color: var(--green-color-3);
 }
 
 .message-red{
+    display: block;
     color: var(--red-color);
     background-color: var(--red-color-3);
 }
 
 .message{
-    display: block;
+    display: none;
     font-weight: var(--font-medium);
     font-size: .9rem;
     padding: 1rem .9rem;
