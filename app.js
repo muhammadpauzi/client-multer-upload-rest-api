@@ -5,6 +5,8 @@ const imageGridContainer = document.querySelector('.image-grid');
 const message = document.querySelector('.message');
 const successStatusCode = [200, 201];
 const errorStatusCode = [400, 500];
+const maxSize = 2 * 1024 * 1024;
+const allowedFileType = ['image/jpeg', 'image/png', 'image/gif'];
 
 inputFile.addEventListener('change', updateInputFile);
 formUploadFile.addEventListener('submit', uploadFile);
@@ -25,6 +27,18 @@ function request(method, url, cb) {
 
 function uploadFile(e) {
     e.preventDefault();
+    if (!inputFile.files[0]) {
+        message.className = 'message message-red';
+        return message.textContent = 'Please upload a file!';
+    }
+    if (inputFile.files[0].size > maxSize) {
+        message.className = 'message message-red';
+        return message.textContent = 'File size cannot be larger than 2MB!';
+    }
+    if (allowedFileType.indexOf(inputFile.files[0].type) == -1) {
+        message.className = 'message message-red';
+        return message.textContent = 'Only image (jpg, jpeg, png, gif) files are allowed to be uploaded.';
+    }
 
     request('POST', "http://localhost:5000/api/images/upload", (xhr, err) => {
         if (err) {
