@@ -52,6 +52,7 @@ function uploadFile(e) {
                 message.textContent = JSON.parse(e.target.response).message;
                 if (successStatusCode.indexOf(e.target.status) != -1) { // success
                     message.className = 'message message-green';
+                    showImages();
                 } else if (errorStatusCode.indexOf(e.target.status) != -1) { // error
                     message.className = 'message message-red';
                 }
