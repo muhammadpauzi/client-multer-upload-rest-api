@@ -3,6 +3,10 @@ const formUploadFile = document.getElementById('formUploadFile');
 const fileUploadName = document.getElementById('fileUploadName');
 const imageGridContainer = document.querySelector('.image-grid');
 const message = document.querySelector('.message');
+const progressBar = document.querySelector('.progress-bar');
+const progressBarFill = document.querySelector('.progress-bar-fill');
+const progressBarText = document.querySelector('.progress-bar-text');
+
 const successStatusCode = [200, 201];
 const errorStatusCode = [400, 500];
 const maxSize = 2 * 1024 * 1024;
@@ -13,6 +17,10 @@ formUploadFile.addEventListener('submit', uploadFile);
 
 function updateInputFile() {
     fileUploadName.textContent = this.files ? this.files[0].name : 'No file choosen';
+    message.className = 'message';
+    message.textContent = '';
+    progressBarFill.style.width = '0';
+    progressBarText.textContent = '0%';
 };
 
 function request(method, url, cb) {
@@ -58,6 +66,13 @@ function uploadFile(e) {
                 }
             }
         }
+
+        xhr.upload.addEventListener('progress', e => {
+            const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
+
+            progressBarFill.style.width = `${percent.toFixed(2)}%`;
+            progressBarText.textContent = `${percent.toFixed(2)}%`;
+        });
 
         const formData = new FormData();
         formData.append("file", inputFile.files[0]);

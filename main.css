@@ -9,6 +9,7 @@
     --red-color-3: rgb(253, 39, 39, .2);
     --font-medium: 500;
     --font-bold: 600;
+    --border-radius: 2px;
 }
 
 *,
@@ -31,7 +32,7 @@ main{
     max-width: 500px;
     color: var(--white-color);
     box-shadow: 0 1px 1px 1px rgba(30, 31, 46, 0.1);
-    border-radius: 2px;
+    border-radius: var(--border-radius);
 }
 
 main h1{
@@ -60,7 +61,7 @@ main h1{
 
 .btn{
     outline: none;
-    border-radius: 2px;
+    border-radius: var(--border-radius);
     color: var(--background-color);
     font-weight: var(--font-bold);
     cursor: pointer;
@@ -142,6 +143,30 @@ main h1{
     height: 200px;
     object-fit: cover;
     display: block;
+}
+
+.progress-bar{
+    width: 100%;
+    border: 2px solid var(--green-color);
+    height: 2rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0 .2rem 0;
+}
+
+.progress-bar-fill{
+    background-color: var(--green-color-3);
+    width: 0;
+    transition: width .3s;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar-text{
+    display: block;
+    margin-left: .3rem;
+    color: var(--white-color);
+    font-weight: var(--font-medium);
 }
 
 @media screen and (max-width: 768px){
