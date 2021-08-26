@@ -15,12 +15,20 @@ const allowedFileType = ['image/jpeg', 'image/png', 'image/gif'];
 inputFile.addEventListener('change', updateInputFile);
 formUploadFile.addEventListener('submit', uploadFile);
 
+function showMessage(className = 'green', messageText = '') {
+    message.className = `message message-${className}`;
+    message.textContent = messageText;
+}
+
+function setProgressBar(width = '0', text = '0%') {
+    progressBarFill.style.width = width;
+    progressBarText.textContent = text;
+}
+
 function updateInputFile() {
     fileUploadName.textContent = this.files ? this.files[0].name : 'No file choosen';
-    message.className = 'message';
-    message.textContent = '';
-    progressBarFill.style.width = '0';
-    progressBarText.textContent = '0%';
+    showMessage('hide'); // hide
+    setProgressBar(); // reset
 };
 
 function request(method, url, cb) {
@@ -36,16 +44,13 @@ function request(method, url, cb) {
 function uploadFile(e) {
     e.preventDefault();
     if (!inputFile.files[0]) {
-        message.className = 'message message-red';
-        return message.textContent = 'Please upload a file!';
+        return showMessage('red', 'Please upload a file!');
     }
     if (inputFile.files[0].size > maxSize) {
-        message.className = 'message message-red';
-        return message.textContent = 'File size cannot be larger than 2MB!';
+        return showMessage('red', 'File size cannot be larger than 2MB!');
     }
     if (allowedFileType.indexOf(inputFile.files[0].type) == -1) {
-        message.className = 'message message-red';
-        return message.textContent = 'Only image (jpg, jpeg, png, gif) files are allowed to be uploaded.';
+        return showMessage('red', 'Only image (jpg, jpeg, png, gif) files are allowed to be uploaded.');
     }
 
     request('POST', "http://localhost:5000/api/images/upload", (xhr, err) => {
@@ -57,12 +62,12 @@ function uploadFile(e) {
             if (e.target.readyState === 4) {
                 inputFile.value = ""; // reset
                 updateInputFile(); // change content to "No file choosen"
-                message.textContent = JSON.parse(e.target.response).message;
+                const { message } = JSON.parse(e.target.response);
                 if (successStatusCode.indexOf(e.target.status) != -1) { // success
-                    message.className = 'message message-green';
+                    showMessage('green', message);
                     showImages();
                 } else if (errorStatusCode.indexOf(e.target.status) != -1) { // error
-                    message.className = 'message message-red';
+                    showMessage('red', message);
                 }
             }
         }
@@ -70,8 +75,7 @@ function uploadFile(e) {
         xhr.upload.addEventListener('progress', e => {
             const percent = e.lengthComputable ? (e.loaded / e.total) * 100 : 0;
 
-            progressBarFill.style.width = `${percent.toFixed(2)}%`;
-            progressBarText.textContent = `${percent.toFixed(2)}%`;
+            setProgressBar(`${percent.toFixed(2)}%`, `${percent.toFixed(2)}%`);
         });
 
         const formData = new FormData();
@@ -80,10 +84,11 @@ function uploadFile(e) {
     });
 }
 
-function generateImage({ url, downloadUrl }) {
+function generateImage({ name, url, downloadUrl }) {
     return `
         <div class="image">
-            <img src="${url}" alt="">
+            <img src="${url}" alt="${name}">
+            <a href="${downloadUrl}" class="download-link">Download</a>
         </div>
     `
 }

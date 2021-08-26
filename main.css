@@ -1,6 +1,7 @@
     :root{
     --background-color: #2B2D42;
     --background-color-2: #2F3146;
+    --background-color-3: rgba(47, 49, 70, 0.8);
     --white-color: #F4F6F8;
     --green-color: #05CC6A;
     --green-color-2: #05b65d;
@@ -112,6 +113,10 @@ main h1{
     background-color: var(--red-color-3);
 }
 
+.message-hide{
+    display: none;
+}
+
 .message{
     display: none;
     font-weight: var(--font-medium);
@@ -136,6 +141,28 @@ main h1{
     gap: .5rem;
     grid-template-columns: repeat(3, 1fr);
     padding: 2rem 0;
+}
+
+.image-grid .image{
+    position: relative;
+    overflow: hidden;
+}
+
+.image-grid .image:hover .download-link{
+    bottom: 2px;
+}
+
+.image-grid .image .download-link{
+    padding: .4rem .6rem;
+    background-color: var(--background-color-3);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    font-weight: var(--font-medium);
+    font-size: .9em;
+    position: absolute;
+    bottom: -40px;
+    right: 2px;
+    transition: bottom .3s;
 }
 
 .image-grid .image img{
